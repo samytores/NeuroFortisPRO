@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://michaelmica.github.io/neuro-fortis-pro/sitemap.xml
