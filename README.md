@@ -1,6 +1,6 @@
 # Neuro Fortis PRO - Cognitive Enhancement Supplement
 
-This is the official promotional website for Neuro Fortis PRO, a premium cognitive enhancement supplement designed to enhance memory, boost mental clarity, and protect against cognitive decline.
+This is the **[official promotional website for Neuro Fortis PRO](https://rebrand.ly/Neuro-Fortis-PRO-Official)**, a premium cognitive enhancement supplement designed to enhance memory, boost mental clarity, and protect against cognitive decline.
 
 ## Website Overview
 
