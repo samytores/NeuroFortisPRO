@@ -52,7 +52,7 @@ All rights reserved. This project and its contents are proprietary.
 
 ## Contact
 
-For more information about Neuro Fortis PRO, please visit [the official website](https://getneurofortis.com/#aff=MichaelMica).
+For more information about Neuro Fortis PRO, please visit [the official website](https://rebrand.ly/Neuro-Fortis-PRO-Official).
 
 ---
 
