@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - Neuro Fortis PRO Blog</title>
+    <meta name="description" content="{{description}}">
+    <meta name="keywords" content="{{keywords}}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://samytores.github.io/NeuroFortisPRO/blog/{{slug}}.html">
+    <meta property="og:title" content="{{title}} - Neuro Fortis PRO Blog">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:image" content="../images/{{featured_image}}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://samytores.github.io/NeuroFortisPRO/blog/{{slug}}.html">
+    <meta property="twitter:title" content="{{title}} - Neuro Fortis PRO Blog">
+    <meta property="twitter:description" content="{{description}}">
+    <meta property="twitter:image" content="../images/{{featured_image}}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://samytores.github.io/NeuroFortisPRO/blog/{{slug}}.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../essential/brain-icon.svg" type="image/svg+xml">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/blog.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo-container">
+                <a href="../index.html" class="logo">Neuro Fortis PRO</a>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="../index.html#benefits" class="nav-link">Benefits</a></li>
+                    <li class="nav-item"><a href="../index.html#ingredients" class="nav-link">Ingredients</a></li>
+                    <li class="nav-item"><a href="../index.html#testimonials" class="nav-link">Testimonials</a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Blog</a></li>
+                    <li class="nav-item"><a href="../index.html#contact" class="nav-link">Contact</a></li>
+                    <li class="nav-item"><a href="https://rebrand.ly/Neuro-Fortis-PRO-Official" class="nav-link cta">Buy Now</a></li>
+                </ul>
+                <button class="hamburger">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <section class="blog-hero">
+        <div class="container">
+            <h1>{{title}}</h1>
+            <div class="blog-meta">
+                <span class="blog-date">{{date}}</span>
+                <span class="blog-category">{{category}}</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-content">
+        <div class="container">
+            <div class="blog-grid">
+                <main class="blog-main">
+                    <article class="blog-article-full">
+                        <div class="blog-featured-image">
+                            <img src="../images/{{featured_image}}" alt="{{image_alt}}">
+                        </div>
+                        <div class="blog-text">
+                            {{content}}
+                        </div>
+                        <div class="blog-tags">
+                            {{#each tags}}
+                            <span class="blog-tag">{{this}}</span>
+                            {{/each}}
+                        </div>
+                        <div class="blog-share">
+                            <h4>Share This Article</h4>
+                            <div class="share-buttons">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://samytores.github.io/NeuroFortisPRO/blog/{{slug}}.html" target="_blank" class="share-button">Facebook</a>
+                                <a href="https://twitter.com/intent/tweet?url=https://samytores.github.io/NeuroFortisPRO/blog/{{slug}}.html&text={{title}}" target="_blank" class="share-button">Twitter</a>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://samytores.github.io/NeuroFortisPRO/blog/{{slug}}.html&title={{title}}" target="_blank" class="share-button">LinkedIn</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <div class="related-posts">
+                        <h3>Related Articles</h3>
+                        <div class="related-posts-grid">
+                            {{#each related_posts}}
+                            <div class="related-post">
+                                <a href="{{this.slug}}.html">
+                                    <img src="../images/{{this.image}}" alt="{{this.title}}">
+                                    <h4>{{this.title}}</h4>
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </main>
+                
+                <aside class="blog-sidebar">
+                    <div class="sidebar-widget">
+                        <h3>Categories</h3>
+                        <ul class="category-list">
+                            <li><a href="#">Nutrition <span>(8)</span></a></li>
+                            <li><a href="#">Mental Training <span>(6)</span></a></li>
+                            <li><a href="#">Sleep Science <span>(4)</span></a></li>
+                            <li><a href="#">Stress Management <span>(5)</span></a></li>
+                            <li><a href="#">Aging <span>(7)</span></a></li>
+                            <li><a href="#">Mindfulness <span>(3)</span></a></li>
+                            <li><a href="#">Research Updates <span>(9)</span></a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="sidebar-widget">
+                        <h3>Popular Posts</h3>
+                        <ul class="popular-posts">
+                            <li>
+                                <a href="brain-boosting-foods.html">
+                                    <img src="../images/blog-1-small.svg" alt="Brain health foods small">
+                                    <div>
+                                        <h4>Top 10 Brain-Boosting Foods</h4>
+                                        <span>April 15, 2025</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="memory-exercises.html">
+                                    <img src="../images/blog-2-small.svg" alt="Memory exercises small">
+                                    <div>
+                                        <h4>5 Simple Daily Exercises for Memory</h4>
+                                        <span>April 10, 2025</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="meditation-brain-benefits.html">
+                                    <img src="../images/blog-6-small.svg" alt="Meditation brain small">
+                                    <div>
+                                        <h4>How Meditation Changes Your Brain</h4>
+                                        <span>March 15, 2025</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="sidebar-widget">
+                        <h3>Subscribe</h3>
+                        <p>Get the latest brain health tips and research updates delivered to your inbox.</p>
+                        <form class="subscribe-form">
+                            <input type="email" placeholder="Your email address" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                    </div>
+                    
+                    <div class="sidebar-widget">
+                        <div class="product-callout">
+                            <h3>Transform Your Mental Performance</h3>
+                            <img src="../images/neuro-fortis-pro.svg" alt="Neuro Fortis PRO bottle">
+                            <p>Experience enhanced memory, mental clarity, and cognitive protection with Neuro Fortis PRO.</p>
+                            <a href="https://rebrand.ly/Neuro-Fortis-PRO-Official" class="btn btn-primary">Get Neuro Fortis PRO</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Mental Performance?</h2>
+                <p>Join thousands who have already discovered the power of Neuro Fortis PRO.</p>
+                <a href="https://rebrand.ly/Neuro-Fortis-PRO-Official" class="btn btn-large">Get Neuro Fortis PRO Now</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Neuro Fortis PRO</h3>
+                    <p>Premium Cognitive Enhancement Supplement</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../index.html#benefits">Benefits</a></li>
+                        <li><a href="../index.html#ingredients">Ingredients</a></li>
+                        <li><a href="../index.html#testimonials">Testimonials</a></li>
+                        <li><a href="index.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p>Email: support@neurofortispro.com</p>
+                    <p>Phone: (555) 123-4567</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Neuro Fortis PRO. All rights reserved.</p>
+                <p>
+                    <a href="#">Privacy Policy</a> | 
+                    <a href="#">Terms of Service</a> | 
+                    <a href="#">Disclaimer</a>
+                </p>
+                <p class="affiliate-disclaimer">This website contains affiliate links. If you click through and make a purchase, we may receive a commission at no additional cost to you.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

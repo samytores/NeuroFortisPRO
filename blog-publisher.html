@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Publisher - Neuro Fortis PRO</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0066CC;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        textarea {
+            min-height: 200px;
+        }
+        .tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .tag {
+            background-color: #0066CC;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .tag button {
+            background: none;
+            border: none;
+            color: white;
+            margin-left: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .add-tag {
+            display: flex;
+            margin-top: 10px;
+        }
+        .add-tag input {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .add-tag button {
+            background-color: #0066CC;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .button-group button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .publish-button {
+            background-color: #00AA66;
+            color: white;
+        }
+        .preview-button {
+            background-color: #0066CC;
+            color: white;
+        }
+        .draft-button {
+            background-color: #666;
+            color: white;
+        }
+        .token-section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        .preview-container {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            display: none;
+        }
+        .preview-container.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Blog Publisher - Neuro Fortis PRO</h1>
+        
+        <div class="token-section">
+            <div class="form-group">
+                <label for="github-token">GitHub Personal Access Token (with repo scope)</label>
+                <input type="password" id="github-token" placeholder="Enter your GitHub token">
+                <p><small>This token is used to authenticate with the GitHub API. It is not stored anywhere except in your browser's memory during this session.</small></p>
+            </div>
+            <button id="validate-token" class="preview-button">Validate Token</button>
+        </div>
+        
+        <form id="blog-form">
+            <div class="form-group">
+                <label for="title">Blog Post Title</label>
+                <input type="text" id="title" required placeholder="Enter the blog post title">
+            </div>
+            
+            <div class="form-group">
+                <label for="slug">URL Slug</label>
+                <input type="text" id="slug" required placeholder="Enter the URL slug (e.g., brain-health-tips)">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Meta Description</label>
+                <textarea id="description" placeholder="Enter the meta description (150-160 characters recommended)"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="keywords">Keywords (comma separated)</label>
+                <input type="text" id="keywords" placeholder="brain health, memory, cognitive function">
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Publication Date</label>
+                <input type="date" id="date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" required>
+                    <option value="">Select a category</option>
+                    <option value="Nutrition">Nutrition</option>
+                    <option value="Mental Training">Mental Training</option>
+                    <option value="Sleep Science">Sleep Science</option>
+                    <option value="Stress Management">Stress Management</option>
+                    <option value="Aging">Aging</option>
+                    <option value="Mindfulness">Mindfulness</option>
+                    <option value="Research Updates">Research Updates</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Tags</label>
+                <div class="tag-input" id="tags-container"></div>
+                <div class="add-tag">
+                    <input type="text" id="new-tag" placeholder="Add a tag">
+                    <button type="button" id="add-tag-button">Add Tag</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="featured-image">Featured Image</label>
+                <input type="text" id="featured-image" placeholder="Enter image filename (e.g., brain-health.svg)">
+            </div>
+            
+            <div class="form-group">
+                <label for="image-alt">Image Alt Text</label>
+                <input type="text" id="image-alt" placeholder="Enter alt text for the featured image">
+            </div>
+            
+            <div class="form-group">
+                <label for="content">Blog Post Content (HTML)</label>
+                <textarea id="content" required placeholder="Enter the blog post content in HTML format"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Related Posts</label>
+                <div id="related-posts-container">
+                    <div class="related-post-item">
+                        <input type="text" class="related-post-slug" placeholder="Post slug (e.g., brain-boosting-foods)">
+                        <input type="text" class="related-post-title" placeholder="Post title">
+                        <input type="text" class="related-post-image" placeholder="Image filename">
+                    </div>
+                </div>
+                <button type="button" id="add-related-post">Add Another Related Post</button>
+            </div>
+            
+            <div class="button-group">
+                <button type="button" id="preview-button" class="preview-button">Preview</button>
+                <button type="button" id="save-draft-button" class="draft-button">Save as Draft</button>
+                <button type="button" id="publish-button" class="publish-button">Publish</button>
+            </div>
+        </form>
+        
+        <div id="status-message" class="status"></div>
+        
+        <div id="preview-container" class="preview-container">
+            <h2>Preview</h2>
+            <div id="preview-content"></div>
+        </div>
+    </div>
+    
+    <script src="js/github-api.js"></script>
+    <script>
+        // Load the GitHub API configuration
+        let githubClient;
+        
+        fetch('github-api-config.json')
+            .then(response => response.json())
+            .then(config => {
+                githubClient = new GitHubAPIClient(config);
+                console.log('GitHub API client initialized with config:', config);
+            })
+            .catch(error => {
+                console.error('Error loading GitHub API config:', error);
+                showStatus('Error loading configuration. Please check the console for details.', 'error');
+            });
+        
+        // DOM elements
+        const form = document.getElementById('blog-form');
+        const tagsContainer = document.getElementById('tags-container');
+        const newTagInput = document.getElementById('new-tag');
+        const addTagButton = document.getElementById('add-tag-button');
+        const relatedPostsContainer = document.getElementById('related-posts-container');
+        const addRelatedPostButton = document.getElementById('add-related-post');
+        const previewButton = document.getElementById('preview-button');
+        const saveDraftButton = document.getElementById('save-draft-button');
+        const publishButton = document.getElementById('publish-button');
+        const statusMessage = document.getElementById('status-message');
+        const previewContainer = document.getElementById('preview-container');
+        const previewContent = document.getElementById('preview-content');
+        const validateTokenButton = document.getElementById('validate-token');
+        const githubTokenInput = document.getElementById('github-token');
+        
+        // Tags array to store the tags
+        let tags = [];
+        
+        // Add tag functionality
+        addTagButton.addEventListener('click', () => {
+            const tagValue = newTagInput.value.trim();
+            if (tagValue && !tags.includes(tagValue)) {
+                tags.push(tagValue);
+                renderTags();
+                newTagInput.value = '';
+            }
+        });
+        
+        // Render tags
+        function renderTags() {
+            tagsContainer.innerHTML = '';
+            tags.forEach((tag, index) => {
+                const tagElement = document.createElement('div');
+                tagElement.className = 'tag';
+                tagElement.innerHTML = `
+                    ${tag}
+                    <button type="button" data-index="${index}">&times;</button>
+                `;
+                tagsContainer.appendChild(tagElement);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.tag button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    tags.splice(index, 1);
+                    renderTags();
+                });
+            });
+        }
+        
+        // Add related post functionality
+        addRelatedPostButton.addEventListener('click', () => {
+            const relatedPostItem = document.createElement('div');
+            relatedPostItem.className = 'related-post-item';
+            relatedPostItem.innerHTML = `
+                <input type="text" class="related-post-slug" placeholder="Post slug (e.g., brain-boosting-foods)">
+                <input type="text" class="related-post-title" placeholder="Post title">
+                <input type="text" class="related-post-image" placeholder="Image filename">
+                <button type="button" class="remove-related-post">&times;</button>
+            `;
+            relatedPostsContainer.appendChild(relatedPostItem);
+            
+            // Add event listener to remove button
+            relatedPostItem.querySelector('.remove-related-post').addEventListener('click', () => {
+                relatedPostsContainer.removeChild(relatedPostItem);
+            });
+        });
+        
+        // Validate GitHub token
+        validateTokenButton.addEventListener('click', () => {
+            const token = githubTokenInput.value.trim();
+            if (!token) {
+                showStatus('Please enter a GitHub token', 'error');
+                return;
+            }
+            
+            githubClient.setToken(token);
+            
+            // Test the token by getting the repository info
+            fetch(`https://api.github.com/repos/${githubClient.owner}/${githubClient.repo}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/vnd.github+json',
+                    'X-GitHub-Api-Version': githubClient.config.api.version || '2022-11-28'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                showStatus(`Token validated successfully! Connected to repository: ${data.full_name}`, 'success');
+            })
+            .catch(error => {
+                console.error('Token validation error:', error);
+                showStatus(`Token validation failed: ${error.message}`, 'error');
+            });
+        });
+        
+        // Preview functionality
+        previewButton.addEventListener('click', () => {
+            const postData = getFormData();
+            if (!validateForm(postData)) {
+                return;
+            }
+            
+            // Generate preview HTML
+            let previewHtml = `
+                <h1>${postData.title}</h1>
+                <div class="meta">
+                    <span>Date: ${postData.date}</span>
+                    <span>Category: ${postData.category}</span>
+                </div>
+                <div class="tags">
+                    Tags: ${postData.tags.join(', ')}
+                </div>
+                <div class="content">
+                    ${postData.content}
+                </div>
+            `;
+            
+            previewContent.innerHTML = previewHtml;
+            previewContainer.classList.add('show');
+        });
+        
+        // Publish functionality
+        publishButton.addEventListener('click', async () => {
+            const token = githubTokenInput.value.trim();
+            if (!token) {
+                showStatus('Please enter and validate your GitHub token first', 'error');
+                return;
+            }
+            
+            const postData = getFormData();
+            if (!validateForm(postData)) {
+                return;
+            }
+            
+            try {
+                showStatus('Publishing blog post...', 'info');
+                
+                // Create the blog post
+                const result = await githubClient.createBlogPost(postData);
+                
+                showStatus(`Blog post published successfully! <a href="blog/${postData.slug}.html" target="_blank">View Post</a>`, 'success');
+                
+                // Update the blog index page (simplified implementation)
+                // In a real implementation, you would need to fetch the current index page,
+                // parse it, add the new post, and update it
+                
+            } catch (error) {
+                console.error('Error publishing blog post:', error);
+                showStatus(`Error publishing blog post: ${error.message}`, 'error');
+            }
+        });
+        
+        // Save as draft functionality
+        saveDraftButton.addEventListener('click', () => {
+            const postData = getFormData();
+            
+            // Store draft in localStorage
+            localStorage.setItem('blogPostDraft', JSON.stringify(postData));
+            
+            showStatus('Draft saved successfully!', 'success');
+        });
+        
+        // Helper function to get form data
+        function getFormData() {
+            const relatedPosts = [];
+            document.querySelectorAll('.related-post-item').forEach(item => {
+                const slug = item.querySelector('.related-post-slug').value.trim();
+                const title = item.querySelector('.related-post-title').value.trim();
+                const image = item.querySelector('.related-post-image').value.trim();
+                
+                if (slug && title) {
+                    relatedPosts.push({
+                        slug,
+                        title,
+                        image: image || 'default-blog.svg'
+                    });
+                }
+            });
+            
+            return {
+                title: document.getElementById('title').value.trim(),
+                slug: document.getElementById('slug').value.trim(),
+                description: document.getElementById('description').value.trim(),
+                keywords: document.getElementById('keywords').value.trim(),
+                date: document.getElementById('date').value,
+                category: document.getElementById('category').value,
+                tags: [...tags],
+                featured_image: document.getElementById('featured-image').value.trim() || 'default-blog.svg',
+                image_alt: document.getElementById('image-alt').value.trim(),
+                content: document.getElementById('content').value.trim(),
+                related_posts: relatedPosts
+            };
+        }
+        
+        // Helper function to validate form
+        function validateForm(data) {
+            if (!data.title) {
+                showStatus('Please enter a title', 'error');
+                return false;
+            }
+            
+            if (!data.slug) {
+                showStatus('Please enter a URL slug', 'error');
+                return false;
+            }
+            
+            if (!data.date) {
+                showStatus('Please select a publication date', 'error');
+                return false;
+            }
+            
+            if (!data.category) {
+                showStatus('Please select a category', 'error');
+                return false;
+            }
+            
+            if (!data.content) {
+                showStatus('Please enter content for the blog post', 'error');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Helper function to show status messages
+        function showStatus(message, type) {
+            statusMessage.innerHTML = message;
+            statusMessage.className = `status ${type}`;
+            
+            // If it's not an error or info message, hide it after 5 seconds
+            if (type !== 'error' && type !== 'info') {
+                setTimeout(() => {
+                    statusMessage.className = 'status';
+                }, 5000);
+            }
+        }
+        
+        // Load draft if exists
+        const savedDraft = localStorage.getItem('blogPostDraft');
+        if (savedDraft) {
+            try {
+                const draftData = JSON.parse(savedDraft);
+                
+                // Populate form fields
+                document.getElementById('title').value = draftData.title || '';
+                document.getElementById('slug').value = draftData.slug || '';
+                document.getElementById('description').value = draftData.description || '';
+                document.getElementById('keywords').value = draftData.keywords || '';
+                document.getElementById('date').value = draftData.date || '';
+                document.getElementById('category').value = draftData.category || '';
+                document.getElementById('featured-image').value = draftData.featured_image || '';
+                document.getElementById('image-alt').value = draftData.image_alt || '';
+                document.getElementById('content').value = draftData.content || '';
+                
+                // Set tags
+                tags = draftData.tags || [];
+                renderTags();
+                
+                // Set related posts
+                if (draftData.related_posts && draftData.related_posts.length > 0) {
+                    // Clear existing related posts
+                    relatedPostsContainer.innerHTML = '';
+                    
+                    // Add related posts from draft
+                    draftData.related_posts.forEach(post => {
+                        const relatedPostItem = document.createElement('div');
+                        relatedPostItem.className = 'related-post-item';
+                        relatedPostItem.innerHTML = `
+                            <input type="text" class="related-post-slug" value="${post.slug}" placeholder="Post slug (e.g., brain-boosting-foods)">
+                            <input type="text" class="related-post-title" value="${post.title}" placeholder="Post title">
+                            <input type="text" class="related-post-image" value="${post.image || ''}" placeholder="Image filename">
+                            <button type="button" class="remove-related-post">&times;</button>
+                        `;
+                        relatedPostsContainer.appendChild(relatedPostItem);
+                        
+                        // Add event listener to remove button
+                        relatedPostItem.querySelector('.remove-related-post').addEventListener('click', () => {
+                            relatedPostsContainer.removeChild(relatedPostItem);
+                        });
+                    });
+                }
+                
+                showStatus('Draft loaded successfully!', 'success');
+            } catch (error) {
+                console.error('Error loading draft:', error);
+            }
+        }
+    </script>
+</body>
+</html>

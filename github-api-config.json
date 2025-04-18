@@ -1,0 +1,25 @@
+{
+  "repository": {
+    "owner": "samytores",
+    "repo": "NeuroFortisPRO",
+    "branch": "main"
+  },
+  "api": {
+    "version": "2022-11-28",
+    "base_url": "https://api.github.com",
+    "endpoints": {
+      "get_content": "/repos/{owner}/{repo}/contents/{path}",
+      "create_or_update_file": "/repos/{owner}/{repo}/contents/{path}"
+    }
+  },
+  "content_paths": {
+    "blog_posts": "blog/",
+    "images": "images/"
+  },
+  "content_types": {
+    "blog": {
+      "template": "blog/template.html",
+      "list_file": "blog/index.html"
+    }
+  }
+}
